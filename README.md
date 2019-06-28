@@ -4,6 +4,10 @@ Projeto criado através do [Create React App](https://github.com/facebook/create
 
 No diretório do projeto rode:
 
+### `npm install`
+
+Em seguida rode:
+
 ### `npm start`
 
 Acesse http://localhost:3000/ no seu navegador e utilize a aplicação.
