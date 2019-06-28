@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import styled from 'styled-components';
 
+import { Link } from 'react-router-dom';
 import comments from '../assets/comments.png';
 
 import api from '../services/api';
@@ -98,12 +99,15 @@ const PostFooter = styled.footer`
     color: #47525e;
     font-weight: bold;
   }
+
+  .link {
+    text-decoration: none;
+  }
 `;
 
 export default class Main extends Component {
   state = {
     posts: [],
-    users: [],
   };
 
   async componentDidMount() {
@@ -112,11 +116,19 @@ export default class Main extends Component {
     this.setState({ posts: response.data });
   }
 
+  showComments = (Post) => {
+    // alert(idPost);
+    localStorage.setItem('idPostSelected', Post.id);
+    localStorage.setItem('titlePostSelected', Post.title);
+    localStorage.setItem('bodyPostSelected', Post.body);
+  };
+
   render() {
+    const { posts } = this.state;
     return (
       <Container>
         <PostList>
-          {this.state.posts.map(post => (
+          {posts.map(post => (
             <Article key={post.id}>
               <PostHeader>
                 <h1 className="postTitle">{post.title}</h1>
@@ -128,10 +140,17 @@ export default class Main extends Component {
                 <div className="postAuthor">
                   <p className="postDate">26/06/2019</p>
                 </div>
-                <div className="comments">
-                  <img className="imgComments" src={comments} alt="Visualizar comentários" />
-                  <span className="viewComments">Visualizar comentários</span>
-                </div>
+                <Link className="link" to="/comments">
+                  <div
+                    className="comments"
+                    onClick={() => {
+                      this.showComments(post);
+                    }}
+                  >
+                    <img className="imgComments" src={comments} alt="Visualizar comentários" />
+                    <span className="viewComments">Visualizar comentários</span>
+                  </div>
+                </Link>
               </PostFooter>
             </Article>
           ))}
